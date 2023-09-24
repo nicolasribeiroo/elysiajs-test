@@ -16,7 +16,7 @@ interface IUserProps {
 
 export class User extends Entity<IUserProps> {
 	private constructor(props: IUserProps, id?: string) {
-		super(props, id);
+		super(props, 'user', id);
 	}
 
 	public get username(): Username {

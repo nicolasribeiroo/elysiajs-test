@@ -1,50 +1,87 @@
-import type { DomainError } from '@core/domain/errors/DomainError';
+import type { InvalidParamError } from '@infra/validation/errors/InvalidParamError';
+import type { InvalidEmailError } from '@modules/users/domain/errors/InvalidEmailError';
+import type { InvalidPasswordLengthError } from '@modules/users/domain/errors/InvalidPasswordLengthError.ts';
+import type { InvalidUsernameError } from '@modules/users/domain/errors/InvalidUsernameError';
+import type { InvalidUserIdError } from '@modules/users/useCases/GetUser/errors/InvalidUserIdError';
 
-export interface HttpResponse<T> {
-	data?: T;
-	error?: DomainError;
-	success: boolean;
-}
+export type CustomError =
+	| InvalidEmailError
+	| InvalidParamError
+	| InvalidPasswordLengthError
+	| InvalidUserIdError
+	| InvalidUsernameError;
 
-export function ok<T>(data: T): HttpResponse<T> {
-	return {
-		success: true,
-		data,
-	};
-}
-
-export function created(): HttpResponse<void> {
-	return {
-		success: true,
-	};
-}
-
-export function clientError(error: Error): HttpResponse<void> {
-	return {
-		success: false,
-		error: {
-			code: 'client_error',
-			message: error.message,
+export function ok<T>(data: T): Response {
+	return new Response(
+		JSON.stringify({
+			success: true,
+			data,
+		}),
+		{
+			status: 200,
+			headers: {
+				'Content-Type': 'application/json',
+			},
 		},
-	};
+	);
 }
 
-export function notFound(error: Error): HttpResponse<any> {
-	return {
-		success: false,
-		error: {
-			code: 'not_found',
-			message: error.message,
-		},
-	};
+export function created(): Response {
+	return new Response(undefined, {
+		status: 201,
+	});
 }
 
-export function conflict(error: Error): HttpResponse<void> {
-	return {
-		success: false,
-		error: {
-			code: 'conflict',
-			message: error.message,
+export function clientError(error: CustomError): Response {
+	return new Response(
+		JSON.stringify({
+			success: false,
+			error: {
+				code: error.code,
+				message: error.message,
+			},
+		}),
+		{
+			status: 400,
+			headers: {
+				'Content-Type': 'application/json',
+			},
 		},
-	};
+	);
+}
+
+export function notFound(error: CustomError): Response {
+	return new Response(
+		JSON.stringify({
+			success: false,
+			error: {
+				code: error.code,
+				message: error.message,
+			},
+		}),
+		{
+			status: 404,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		},
+	);
+}
+
+export function conflict(error: CustomError): Response {
+	return new Response(
+		JSON.stringify({
+			success: false,
+			error: {
+				code: error.code,
+				message: error.message,
+			},
+		}),
+		{
+			status: 409,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		},
+	);
 }

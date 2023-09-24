@@ -1,5 +1,5 @@
 import type { Controller } from '@core/infra/Controller';
-import type { HttpResponse } from '@core/infra/HttpResponse';
+import type { CustomError } from '@core/infra/HttpResponse';
 import { clientError, conflict, created } from '@core/infra/HttpResponse';
 import type { Validator } from '@core/infra/Validator';
 import type { RegisterUser } from './RegisterUser';
@@ -19,7 +19,7 @@ export class RegisterUserController implements Controller {
 		private readonly registerUser: RegisterUser,
 	) {}
 
-	public async handle(request: RegisterUserControllerRequest): Promise<HttpResponse<void>> {
+	public async handle(request: RegisterUserControllerRequest): Promise<Response> {
 		const validationResult = this.validator.validate(request);
 
 		if (validationResult.isLeft()) {
@@ -39,9 +39,9 @@ export class RegisterUserController implements Controller {
 
 			switch (error.constructor) {
 				case AccountAlreadyExistsError:
-					return conflict(error);
+					return conflict(error as CustomError);
 				default:
-					return clientError(error);
+					return clientError(error as CustomError);
 			}
 		} else {
 			return created();

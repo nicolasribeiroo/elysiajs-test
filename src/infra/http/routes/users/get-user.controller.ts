@@ -13,7 +13,7 @@ export function GetUserController<Instance extends AppInstance>(app: Instance) {
 		},
 		{
 			detail: {
-				tags: ['Users'],
+				tags: ['Users/Get'],
 			},
 		},
 	);

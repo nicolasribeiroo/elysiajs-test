@@ -7,3 +7,5 @@ export const pika = new Pika([
 		description: 'Users',
 	},
 ]);
+
+export const pika_prefixes = pika.prefixes.user.prefix;

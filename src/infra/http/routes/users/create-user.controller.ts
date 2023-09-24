@@ -8,23 +8,6 @@ const bodySchema = t.Object({
 	password: t.String(),
 });
 
-const responseSchema = t.Object({
-	success: t.Boolean(),
-	data: t.Optional(
-		t.Object({
-			id: t.String(),
-			username: t.String(),
-			email: t.String(),
-		}),
-	),
-	error: t.Optional(
-		t.Object({
-			code: t.String(),
-			message: t.String(),
-		}),
-	),
-});
-
 export function CreateUserController<Instance extends AppInstance>(app: Instance) {
 	return app.post(
 		'/users',
@@ -37,9 +20,8 @@ export function CreateUserController<Instance extends AppInstance>(app: Instance
 		},
 		{
 			body: bodySchema,
-			response: responseSchema,
 			detail: {
-				tags: ['Users'],
+				tags: ['Users/Create'],
 			},
 		},
 	);
