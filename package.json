@@ -1,0 +1,35 @@
+{
+  "name": "backend",
+  "version": "1.0.50",
+  "private": true,
+  "scripts": {
+    "start": "bun run src/infra/http/server.ts",
+    "dev": "bun run --watch src/infra/http/server.ts",
+    "lint": "prettier --check . && eslint src --ext .mjs,.js,.cjs,.ts --format=pretty",
+    "format": "prettier --write . && eslint src --ext .mjs,.js,.cjs,.ts --fix --format=pretty",
+    "fmt": "bun run format"
+  },
+  "main": "src/infra/http/server.ts",
+  "dependencies": {
+    "@elysiajs/cors": "^0.7.0",
+    "@prisma/client": "^5.3.1",
+    "@types/bcrypt": "^5.0.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "elysia": "latest",
+    "pika-id": "^1.1.3"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.4",
+    "bun-types": "latest",
+    "eslint": "^8.50.0",
+    "eslint-config-neon": "^0.1.56",
+    "eslint-formatter-pretty": "^5.0.0",
+    "prettier": "^3.0.3",
+    "prisma": "^5.3.1",
+    "typescript": "^5.2.2"
+  },
+  "prisma": {
+    "schema": "./src/infra/prisma/schema.prisma"
+  }
+}
