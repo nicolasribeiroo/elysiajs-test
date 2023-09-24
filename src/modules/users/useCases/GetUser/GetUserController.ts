@@ -1,6 +1,7 @@
 import type { Controller } from '@core/infra/Controller';
 import type { CustomError } from '@core/infra/HttpResponse';
 import { notFound, ok } from '@core/infra/HttpResponse';
+import { UserViewModel } from '@infra/http/view-models/user-view-model';
 import type { GetUser } from './GetUser';
 
 interface GetUserControllerRequest {
@@ -21,6 +22,6 @@ export class GetUserController implements Controller {
 			return notFound(result.value as CustomError);
 		}
 
-		return ok(result.value);
+		return ok(UserViewModel.toHTTP(result.value));
 	}
 }
