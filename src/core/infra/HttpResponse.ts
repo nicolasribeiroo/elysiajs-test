@@ -1,15 +1,4 @@
-import type { InvalidParamError } from '@infra/validation/errors/InvalidParamError';
-import type { InvalidEmailError } from '@modules/users/domain/errors/InvalidEmailError';
-import type { InvalidPasswordLengthError } from '@modules/users/domain/errors/InvalidPasswordLengthError.ts';
-import type { InvalidUsernameError } from '@modules/users/domain/errors/InvalidUsernameError';
-import type { InvalidUserIdError } from '@modules/users/useCases/GetUser/errors/InvalidUserIdError';
-
-export type CustomError =
-	| InvalidEmailError
-	| InvalidParamError
-	| InvalidPasswordLengthError
-	| InvalidUserIdError
-	| InvalidUsernameError;
+import type { CustomError } from './CustomError';
 
 export function ok<T>(data: T): Response {
 	return new Response(
@@ -50,6 +39,24 @@ export function clientError(error: CustomError): Response {
 	);
 }
 
+export function unauthorized(): Response {
+	return new Response(
+		JSON.stringify({
+			success: false,
+			error: {
+				code: 'no_permission',
+				message: 'You do not have permission to access this resource',
+			},
+		}),
+		{
+			status: 401,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		},
+	);
+}
+
 export function notFound(error: CustomError): Response {
 	return new Response(
 		JSON.stringify({
@@ -79,6 +86,26 @@ export function conflict(error: CustomError): Response {
 		}),
 		{
 			status: 409,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		},
+	);
+}
+
+export function fail(error: CustomError): Response {
+	console.log(error);
+
+	return new Response(
+		JSON.stringify({
+			success: false,
+			error: {
+				code: error.code,
+				message: error.message,
+			},
+		}),
+		{
+			status: 500,
 			headers: {
 				'Content-Type': 'application/json',
 			},

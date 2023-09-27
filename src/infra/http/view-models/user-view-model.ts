@@ -1,12 +1,11 @@
-import type { User } from '@modules/users/domain/user';
+import type { User } from '@modules/accounts/domain/user/user';
 
 export const UserViewModel = {
 	toHTTP(user: User) {
-		const { email, id, username } = user;
+		const { id, username } = user;
 
 		return {
 			id,
-			email: email.value,
 			username: username.value,
 		};
 	},

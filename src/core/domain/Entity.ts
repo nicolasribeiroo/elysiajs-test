@@ -1,14 +1,14 @@
-import type { pika_prefixes } from '@core/infra/Pika';
+import type { Prefixes } from '@core/infra/Pika';
 import { pika } from '@core/infra/Pika';
 
 export abstract class Entity<T> {
 	protected readonly _id: string;
 
-	public readonly prefix: typeof pika_prefixes | undefined;
+	public readonly prefix: Prefixes | undefined;
 
 	public readonly props: T;
 
-	public constructor(props: T, prefix: typeof pika_prefixes, id?: string) {
+	public constructor(props: T, prefix: Prefixes, id?: string) {
 		this._id = id ?? pika.gen(prefix);
 		this.props = props;
 	}

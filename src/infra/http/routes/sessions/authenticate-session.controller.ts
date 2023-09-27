@@ -1,23 +1,22 @@
 import { t } from 'elysia';
 import type { AppInstance } from '@infra/http/app';
-import { makeRegisterUserController } from '@infra/http/factories/controllers/RegisterUserControllerFactory';
+import { makeAuthenticateSessionController } from '@infra/http/factories/controllers/AuthenticateSessionControllerFactory';
 
 const bodySchema = t.Object({
-	username: t.String(),
 	email: t.String(),
 	password: t.String(),
 });
 
-export function CreateUserController<Instance extends AppInstance>(app: Instance) {
+export function AuthenticateSessionController<Instance extends AppInstance>(app: Instance) {
 	return app.post(
-		'/users',
+		'/sessions',
 		async ({ body, headers }) => {
-			const registerUserController = makeRegisterUserController();
+			const authenticateSessionController = makeAuthenticateSessionController();
 
 			const requestingIp = headers['cf-connecting-ip'] ?? '0.0.0.0';
 			const userAgent = headers['user-agent'] ?? 'N/A';
 
-			return registerUserController.handle({
+			return authenticateSessionController.handle({
 				body,
 				requestingIp,
 				userAgent,
@@ -26,7 +25,7 @@ export function CreateUserController<Instance extends AppInstance>(app: Instance
 		{
 			body: bodySchema,
 			detail: {
-				tags: ['Users/Create'],
+				tags: ['Sessions/Authenticate'],
 			},
 		},
 	);

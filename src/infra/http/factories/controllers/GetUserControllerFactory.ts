@@ -1,7 +1,7 @@
 import type { Controller } from '@core/infra/Controller';
-import { PrismaUsersRepository } from '@modules/users/repositories/prisma/PrismaUsersRepository';
-import { GetUser } from '@modules/users/useCases/GetUser/GetUser';
-import { GetUserController } from '@modules/users/useCases/GetUser/GetUserController';
+import { PrismaUsersRepository } from '@modules/accounts/repositories/prisma/PrismaUsersRepository';
+import { GetUser } from '@modules/accounts/useCases/GetUser/GetUser';
+import { GetUserController } from '@modules/accounts/useCases/GetUser/GetUserController';
 
 export function makeGetUserController(): Controller {
 	const prismaUsersRepository = new PrismaUsersRepository();

@@ -1,4 +1,4 @@
-import type { CustomError } from '@core/infra/HttpResponse';
+import type { CustomError } from '@core/infra/CustomError';
 import type { Validator } from '@core/infra/Validator';
 import type { Either } from '@core/logic/Either';
 import { right } from '@core/logic/Either';

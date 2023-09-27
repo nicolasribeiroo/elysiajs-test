@@ -1,11 +1,18 @@
+import type { InferPrefixes } from 'pika-id';
 import Pika from 'pika-id';
 
-export const pika = new Pika([
-	'user',
+export const pika = new Pika(
+	[
+		'user',
+		'account',
+		{
+			prefix: 'session',
+			secure: true,
+		},
+	],
 	{
-		prefix: 'u',
-		description: 'Users',
+		epoch: 1_676_953_708_489,
 	},
-]);
+);
 
-export const pika_prefixes = pika.prefixes.user.prefix;
+export type Prefixes = InferPrefixes<typeof pika>;
